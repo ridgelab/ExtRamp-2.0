@@ -1,0 +1,20 @@
+Running ExtRamp version 2.0
+
+Reading Sequences... took: 0.046755075454711914
+
+312 sequences were invalid so they were removed!
+	312 were shorter than the 300 nucleotide cutoff.
+
+Total valid sequences: 5649
+
+Calculating codon speeds... took: 0.0003268718719482422
+Calculating sequence speeds... took: 0.9475901126861572
+Creating ramp pool... took: 0.43150997161865234
+
+Isolating ramp sequences... took: 0.4636728763580322
+
+608 Ramp Sequences found
+
+Outputting ramps took: 0.0014109611511230469
+
+Total time: 1.9137520790100098
