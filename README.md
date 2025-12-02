@@ -1,6 +1,6 @@
 # ExtRamp 2.0
 
-ExtRamp is a tool to extract the ramp sequence from the beginning of mRNA coding sequences. ExtRamp 2.0 is up to ***124 times*** faster than ExtRamp 1.0 and up to **3 times** more memory efficient.
+ExtRamp is a tool to extract the ramp sequence from the beginning of mRNA coding sequences. ExtRamp 2.0 is up to ***124 times*** faster than ExtRamp 1.0 and up to ***3 times*** more memory efficient.
 
 Ramps are inefficiently translated codon clusters at the beginning of coding sequences, predicted to evenly space ribosomes along a transcript, reducing ribosomal collisions and increasing protein expression.
 
