@@ -6,7 +6,7 @@ Ramps are inefficiently translated codon clusters at the beginning of coding seq
 
 ## Links
 ExtRamp 2.0 Paper- coming soon!\
-ExtRamp 2.0 Benchmark GitHub- coming soon!\
+[ExtRamp 2.0 Benchmark GitHub](https://github.com/ridgelab/ExtRamp-2.0-Benchmarking)\
 [ExtRamp 1.0 Paper](https://academic.oup.com/nar/article/47/3/1123/5289485)\
 [ExtRamp 1.0 GitHub](https://github.com/ridgelab/ExtRamp)
 
