@@ -1,6 +1,6 @@
 # ExtRamp 2.0
 
-ExtRamp is a tool to extract the ramp sequence from the beginning of mRNA coding sequences. ExtRamp 2.0 is up to ***124 times*** faster than ExtRamp 1.0 and up to ***3 times*** more memory efficient.
+ExtRamp is a tool to extract the ramp sequence from the beginning of mRNA coding sequences. ExtRamp 2.0 is up to ***108 times*** faster than ExtRamp 1.0 and up to ***3 times*** more memory efficient.
 
 Ramps are inefficiently translated codon clusters at the beginning of coding sequences, predicted to evenly space ribosomes along a transcript, reducing ribosomal collisions and increasing protein expression.
 
@@ -63,7 +63,7 @@ output.fasta should match [example_files/Homo_sapiens_output.fasta](./example_fi
 
 ### EXAMPLE WITH RAMP SCORES
 ```
-python ExtRamp.py -v -t 4 -i example_files/Saccharomyces_cerevisiae -a example_files/S_cerevisiae_tAI_Values.csv -o outTest.fasta -y scores.tsv
+python ExtRamp.py -v -t 4 -i example_files/Saccharomyces_cerevisiae.gz -a example_files/S_cerevisiae_tAI_Values.csv -o outTest.fasta -y scores.tsv
 ```
 The scores.tsv file should match [example_files/S_cerevisiae_scores.tsv](./example_files/S_cerevisiae_scores.tsv). The ramp strength score is the 6th column and the ramp robustness score is the 11th (last) column.
 
