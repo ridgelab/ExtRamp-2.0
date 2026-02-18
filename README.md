@@ -24,7 +24,8 @@ In addition to the arguments in [ExtRamp 1.0](https://github.com/ridgelab/ExtRam
 
 ### IMPROVED ARGUMENTS
 The output of -l (--vals) has been modified to match the FASTA-like structure of the -p (--speeds) file: for each sequence, a header followed by a list of window mean speeds separated by a comma and space.\
-The -v (--verbose) option now prints more info, such as the number of sequences filtered out due to being to short or not divisible by 3 and the duration of each task.
+The -v (--verbose) option now prints more info, such as the number of sequences filtered out due to being to short or not divisible by 3 and the duration of each task.\
+Adding ".gz" to the end of output file paths on the command line now writes results as gzipped files. Arguments this works for are -o (--ramp), -p (--speeds), -x (--afterRamp), -n (--noRamp), and -y (--scores).
 
 ## REQUIREMENTS
 ExtRamp.py was tested and developed in Python version 3.12.2.
