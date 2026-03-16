@@ -337,9 +337,8 @@ def calcSeqSpeed(elem):
     seqToSpeed = {}
     seq = elem[1]
     speedArray = []
-    stopCodons = ["TAA", "TAG", "TGA"]
     for index in range(0, len(seq), 3):
-        if not seq[index:index+3] in stopCodons:
+        if seq[index:index+3] not in STOP_CODONS:
             speedArray.append(codonToSpeed[seq[index:index+3]])
         else:
             speedArray.append(0.0001)
@@ -674,10 +673,9 @@ def writeCodonSpeedsFile(codonToSpeed):
     """
     Writes the calculated codon speeds (wij) to a csv file.
     """
-    stopCodons = ["TAA", "TAG", "TGA"]
     with open(args.wij, "w", newline="") as csvfile:
         for codon, speed in codonToSpeed.items():
-            if codon not in stopCodons:
+            if codon not in STOP_CODONS:
                 csvfile.write(f"{codon},{speed}\n")
 
 def outputRampScores(rampScores, outPath):
