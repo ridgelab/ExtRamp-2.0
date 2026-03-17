@@ -318,7 +318,7 @@ def countCodons(sequence, codonToSpeed, totalCodons):
     """
     Input: A DNA sequence.
     Returns a dictionary of codons to the total number of times the codon was found
-    in all provided gene sequences. These are later used to find the proportions of 
+    in all provided gene sequences. These are later used to find the proportions of
     codon usage (estimate speed of translation). Also returns the total number of codons.
     """
     for i in range(0, len(sequence), 3):
@@ -730,7 +730,7 @@ def wrapperFunction(funcAndArgs):
 def validatePoolResults(results, pool=None):
     """
     If any of the workers return an exception, closes the pool and exits the program.
-    """    
+    """
     if any(isinstance(result, Exception) for result in results):
         # get the first exception and print its message
         for result in results:
@@ -745,7 +745,7 @@ def validatePoolResults(results, pool=None):
 
 def getRampStrength(speeds, percentThatIsRamp):
     """
-    Gets the strength for the ramp for the speeds. A positive score indicates the presence of a ramp while 
+    Gets the strength for the ramp for the speeds. A positive score indicates the presence of a ramp while
     a negative score indicates an absence of a ramp. The score is calculated using the following formula
     zscore non-ramp region minimum window mean - zscore ramp region minimum window mean
     Note that the ramp region is up to the ramp cutoff, even if the ramp is shorter or longer than the ramp cutoff.
@@ -758,7 +758,7 @@ def getRampStrength(speeds, percentThatIsRamp):
     # this typically triggered by long repeat sequences
     if np.std(windowMeans) < 1e-8:
         return "NA", "NA", "NA"
-    
+
     zWindowMeans = zscore(windowMeans)
 
     rampCutoff = int(len(zWindowMeans) * percentThatIsRamp / 100) + 1 # plus 1 to include the last window of the ramp region
@@ -775,7 +775,7 @@ def getRampStrength(speeds, percentThatIsRamp):
     else:
         # if the ramp is the entire sequence, then a strength score can't be calculated
         return "NA", "NA", "NA"
-    
+
     return nonRampMinMean, rampMinMean, rampStrength
 
 def getCodonToValidMutationDicts(codonToValidMutations, codonToSpeed):
@@ -816,18 +816,18 @@ def setUpGetNumMutations(speeds, windowMeans, percentThatIsRamp):
 
 def evaluateMutations(seqCodons, reciprocalSpeeds, rampWindowsToCheck, ribosomeWindowLength, comparisonValue, codonToReciprocalSpeed, codonToReasonablyValidMutations, mutationCriteria, comparisonType):
     """
-    Checks each codon corresponding to each window index in rampWindowsToCheck to for single nucleotide mutations that alter 
-    the ramp status. Mutations are only considered if the resulting mutant codon's efficiency is above (if comparisonType == "above") 
-    or below (if comparisonType == "below") the wild-type codon efficiency. Valid mutant codons are determined by the 
+    Checks each codon corresponding to each window index in rampWindowsToCheck to for single nucleotide mutations that alter
+    the ramp status. Mutations are only considered if the resulting mutant codon's efficiency is above (if comparisonType == "above")
+    or below (if comparisonType == "below") the wild-type codon efficiency. Valid mutant codons are determined by the
     codonToReasonablyValidMutations dictionary. If mutationCriteria is "set", the "numMutations" that can alter the ramp status are
     obtained using a dictionary of positions to sets of ramp status altering mutations (reasonablyValidMutations). If mutationCriteria
     is "dict", "numMutations" that can alter the ramp status are obtained using a dictionary of positions to mutant codons to the number
     of windows they affect and only the mutations that affect all ramp windows (affectWindowsCriteria) are counted in "numMutations".
     """
     reasonablyValidMutations = {} # {seqPosition: set(mutantCodon)}
-    
+
     affectWindowsCriteria = len(rampWindowsToCheck) # used to determine if a mutation must affect all ramp windows
-    
+
     numMutations = 0  # Counts mutations meeting the criteria
 
     mutationPosToCodon = {} # seqPosition to set of mutantCodons or dict of mutantCodon to numMutations
@@ -861,7 +861,7 @@ def evaluateMutations(seqCodons, reciprocalSpeeds, rampWindowsToCheck, ribosomeW
                         if mutantCodon not in mutationPosToCodon[seqPosition]:
                             mutationPosToCodon[seqPosition][mutantCodon] = 0
                         mutationPosToCodon[seqPosition][mutantCodon] += 1
-                        # if the number of mutations at a particular position reaches the rampWindowsToAffect threshold, increment numMutations                        
+                        # if the number of mutations at a particular position reaches the rampWindowsToAffect threshold, increment numMutations
                         if affectWindowsCriteria and mutationPosToCodon[seqPosition][mutantCodon] == affectWindowsCriteria:
                             numMutations += 1
                 else:
@@ -876,10 +876,10 @@ def evaluateMutations(seqCodons, reciprocalSpeeds, rampWindowsToCheck, ribosomeW
 
 def calculateRampRobustness(rampRobustnessMultiplier, numRampRegionChangingMutations, numNonRampRegionChangingMutations, reasonablyValidRampMutations, reasonablyValidNonRampMutations):
     """
-    Ramp robustness is the fraction of mutations that are reasonably valid that do not change the ramp status of the sequence, multiplied 
+    Ramp robustness is the fraction of mutations that are reasonably valid that do not change the ramp status of the sequence, multiplied
     by -1 if the sequence does not have a ramp. A single nucleotide mutation is reasonably valid if the mutant codon's corresponding efficiency
-    is above () or below () the wild-type codon efficiency. For example, if a sequence without a ramp has a ramp region with 10 mutations 
-    out of 100 that are reasonably valid and the non-ramp region has 20 mutations out of 100 that are reasonably valid, the ramp robustness 
+    is above () or below () the wild-type codon efficiency. For example, if a sequence without a ramp has a ramp region with 10 mutations
+    out of 100 that are reasonably valid and the non-ramp region has 20 mutations out of 100 that are reasonably valid, the ramp robustness
     would be -1 * (1 - 30/100) = 0.7. 0.7 means that 70% of the mutations that are reasonably valid do not create a ramp in the sequence.
     Returns the number of reasonably valid ramp mutations, the number of reasonably valid non-ramp mutations, and the ramp robustness score.
     """
@@ -888,13 +888,13 @@ def calculateRampRobustness(rampRobustnessMultiplier, numRampRegionChangingMutat
     numReasonablyValidNonRampMutations = sum(len(mutations) for mutations in reasonablyValidNonRampMutations.values())
     totalReasonablyValidMutations = numReasonablyValidRampMutations + numReasonablyValidNonRampMutations
     rampRobustness = rampRobustnessMultiplier * (1 - (numChangingMutations / totalReasonablyValidMutations))
-    
+
     return numReasonablyValidRampMutations, numReasonablyValidNonRampMutations, rampRobustness
 
 def getNumDestroyingMutations(seqCodons, speeds, windowMeans, codonToReciprocalSpeed, codonToSlowerValidMutations, codonToFasterValidMutations, percentThatIsRamp, ribosomeWindowLength):
     """
-    Gets the number of reasonably valid mutations that destroy the ramp of the sequence. Ramp region mutations that destroy 
-    the ramp must increase ALL ramp windows above the non-ramp minimum efficiency. Non-ramp region mutations that destroy 
+    Gets the number of reasonably valid mutations that destroy the ramp of the sequence. Ramp region mutations that destroy
+    the ramp must increase ALL ramp windows above the non-ramp minimum efficiency. Non-ramp region mutations that destroy
     the ramp must decrease ANY non-ramp window below the ramp minimum efficiency.
     Returns the number of ramp region ramp destroying mutations, the number of non-ramp region ramp destroying mutations, the number of
     reasonably valid ramp mutations, the number of reasonably valid non-ramp mutations, and the ramp robustness score.
@@ -918,12 +918,12 @@ def getNumDestroyingMutations(seqCodons, speeds, windowMeans, codonToReciprocalS
     numNonRampRegionDestroyingMutations, reasonablyValidNonRampMutations = evaluateMutations(seqCodons, reciprocalSpeeds, range(rampRegionEnd,len(windowMeans)), ribosomeWindowLength, rampMin, codonToReciprocalSpeed, codonToSlowerValidMutations, "set", "below")
 
     numReasonablyValidRampMutations, numReasonablyValidNonRampMutations, rampRobustness = calculateRampRobustness(1, numRampRegionDestroyingMutations, numNonRampRegionDestroyingMutations, reasonablyValidRampMutations, reasonablyValidNonRampMutations)
-    
+
     return numRampRegionDestroyingMutations, numNonRampRegionDestroyingMutations, numReasonablyValidRampMutations, numReasonablyValidNonRampMutations, rampRobustness
 
 def getNumCreatingMutations(seqCodons, speeds, windowMeans, codonToReciprocalSpeed, codonToSlowerValidMutations, codonToFasterValidMutations, percentThatIsRamp, ribosomeWindowLength):
     """
-    Gets the number of reasonably valid mutations that create a ramp in the sequence. Ramp region mutations that create 
+    Gets the number of reasonably valid mutations that create a ramp in the sequence. Ramp region mutations that create
     a ramp must decrease ANY ramp windows below the non-ramp minimum efficiency. Non-ramp region mutations that
     create a ramp must increase ALL non-ramp windows below the ramp minimum efficiency.
     Returns the number of ramp region ramp creating mutations, the number of non-ramp region ramp creating mutations, the number of
@@ -940,7 +940,7 @@ def getNumCreatingMutations(seqCodons, speeds, windowMeans, codonToReciprocalSpe
     for index in range(len(nonRampWindowsToCheck)-1):
         if nonRampWindowsToCheck[index] + ribosomeWindowLength < nonRampWindowsToCheck[index+1]:
             windowsAllOverlap = False
-            break        
+            break
     if windowsAllOverlap:
         numNonRampRegionCreatingMutations, reasonablyValidNonRampMutations = evaluateMutations(seqCodons, reciprocalSpeeds, nonRampWindowsToCheck, ribosomeWindowLength, rampMin, codonToReciprocalSpeed, codonToFasterValidMutations, "dict", "above")
     else:
@@ -948,12 +948,12 @@ def getNumCreatingMutations(seqCodons, speeds, windowMeans, codonToReciprocalSpe
         reasonablyValidNonRampMutations = {}
 
     numReasonablyValidRampMutations, numReasonablyValidNonRampMutations, rampRobustness = calculateRampRobustness(-1, numRampRegionCreatingMutations, numNonRampRegionCreatingMutations, reasonablyValidRampMutations, reasonablyValidNonRampMutations)
-    
+
     return numRampRegionCreatingMutations, numNonRampRegionCreatingMutations, numReasonablyValidRampMutations, numReasonablyValidNonRampMutations, rampRobustness
 
 def getRampRobustness(seq, speeds, codonToSpeed, codonToSlowerValidMutations, codonToFasterValidMutations, percentThatIsRamp, ribosomeWindowLength):
     """
-    A wrapper for the getNumDestroyingMutations and getNumCreatingMutations functions. Determines if the sequence has a ramp, 
+    A wrapper for the getNumDestroyingMutations and getNumCreatingMutations functions. Determines if the sequence has a ramp,
     then calls the appropriate function to get the number of mutations that change the ramp status of the sequence.
     Returns the number of ramp region ramp status changing mutations, the number of non-ramp region ramp status changing mutations, the number of
     reasonably valid ramp mutations, the number of reasonably valid non-ramp mutations, and the ramp robustness score.
@@ -980,16 +980,16 @@ def getRampLength(speeds):
     if perc <= percentThatIsRamp: # if the sequence has a ramp
         lastRampWindow = getLastRampWindowIndex(pos, windowMeans, mean)
         rampLen = (lastRampWindow+ribosomeWindowLength)*3 + 3 # add the start codon
-        return rampLen 
+        return rampLen
     else: # if the sequence doesn't have a ramp, return -1
         return -1
 
 def scoreRamps(seqTuple):
     """
     Gets the strength and robustness for an input sequence tuple, calling getRampStrength and getRampRobustness.
-    Returns the header, length of the input CDS (including start and stop codons), length of calculated ramp (including start codon), 
-    minimum of the non-ramp region, minimum of the ramp region, ramp strength, number of ramp region status changing mutations, 
-    number of non-ramp region status changing mutations, number of reasonably valid ramp mutations, number of reasonably 
+    Returns the header, length of the input CDS (including start and stop codons), length of calculated ramp (including start codon),
+    minimum of the non-ramp region, minimum of the ramp region, ramp strength, number of ramp region status changing mutations,
+    number of non-ramp region status changing mutations, number of reasonably valid ramp mutations, number of reasonably
     valid non-ramp mutations, and the ramp robustness score.
     """
     header = seqTuple[0]
@@ -999,16 +999,16 @@ def scoreRamps(seqTuple):
     nonRampMinMean, rampMinMean, rampStrength = getRampStrength(speeds, percentThatIsRamp)
     numRampRegionStatusChangingMutations, numNonRampRegionStatusChangingMutations, numReasonablyValidRampMutations, numReasonablyValidNonRampMutations, rampRobustness = getRampRobustness(seq, speeds, codonToSpeed, codonToSlowerValidMutations, codonToFasterValidMutations, percentThatIsRamp, ribosomeWindowLength)
 
-    cdsLength = len(speeds) * 3 + 6 # x3 to get nucleotides and add start and stop back 
+    cdsLength = len(speeds) * 3 + 6 # x3 to get nucleotides and add start and stop back
     rampLength = getRampLength(speeds)
-    
-    return tuple([header, str(cdsLength), str(rampLength), str(nonRampMinMean), str(rampMinMean), str(rampStrength), 
-                str(numRampRegionStatusChangingMutations), str(numNonRampRegionStatusChangingMutations), 
+
+    return tuple([header, str(cdsLength), str(rampLength), str(nonRampMinMean), str(rampMinMean), str(rampStrength),
+                str(numRampRegionStatusChangingMutations), str(numNonRampRegionStatusChangingMutations),
                 str(numReasonablyValidRampMutations), str(numReasonablyValidNonRampMutations), str(rampRobustness)])
 
 if __name__ == "__main__":
     freeze_support()
-    
+
     # parse arguments
     args = makeArgParser()
     if args.verbose:
